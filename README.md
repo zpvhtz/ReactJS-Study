@@ -3,7 +3,6 @@ ReactJS
 ----------
 Lesson one
 
-    ----
     Install NodeJS
 
     ----
