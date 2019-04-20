@@ -94,7 +94,14 @@ import { type } from 'os';
 
 //App -> Counter
 class App extends React.Component {
-	state = { showCounter: true }
+	state = { 
+		showCounter: true,
+		delta: 1
+	}
+
+	handleDeltaChange = (nextDelta) => {
+		this.setState({ delta: nextDelta })
+	}
 
 	handleToggleCounter = () => {
 		this.setState({ showCounter: !this.state.showCounter })
@@ -105,9 +112,9 @@ class App extends React.Component {
 			<div>
 				{this.state.showCounter ?
 					<div>
-						<Counter name="Counter 1" initialVal={10}/>
+						<Counter name="Counter 1" delta={this.state.delta} onDeltaChange={this.handleDeltaChange}/>
 						<hr/>
-						<Counter name="Counter 2" initialVal={100}/>
+						<Counter name="Counter 2" delta={this.state.delta} onDeltaChange={this.handleDeltaChange}/>
 					</div> : null}
 				<button type="button" onClick={this.handleToggleCounter}>
 					{this.state.showCounter ? 'Hide' : 'Show'} counter

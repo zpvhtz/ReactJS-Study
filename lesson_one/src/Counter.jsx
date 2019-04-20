@@ -1,7 +1,12 @@
 import React from 'react'
 
 class Counter extends React.Component {
-    state = { value: this.props.initialVal || 0, add: true, globalVal: 0, autoIncreaseOn: false };
+    state = {
+        value: this.props.initialVal || 0,
+        add: true,
+        globalVal: 0,
+        autoIncreaseOn: true
+    };
 
     valueColor = {
         color: 'black'
@@ -31,7 +36,8 @@ class Counter extends React.Component {
     }
 
     handleIncreaseValue = () => {
-        this.setState({ value: ++this.state.value });
+        // this.setState({ value: ++this.state.value });
+        this.handleDeltaChange(1);
     }
 
     handleDecreaseValue = () => {
@@ -48,7 +54,7 @@ class Counter extends React.Component {
     }
 
     handleUpdateValue = () => {
-        this.setState({ globalVal: this.state.globalVal + this.state.value });
+        this.setState({ globalVal: this.state.globalVal + this.props.delta });
         this.setState({ value: 0 });
     }
 
@@ -65,6 +71,10 @@ class Counter extends React.Component {
             }
         })    
     }
+
+    handleDeltaChange = (delta) => {
+        this.props.onDeltaChange(this.props.delta + delta);
+    }
     
     componentDidMount = () => {
         this.handleToggleAutoIncrease();
@@ -76,20 +86,24 @@ class Counter extends React.Component {
 
     render() {
         const { value, add, globalVal, autoIncreaseOn } = this.state;
+        const { delta } = this.props;
+
         const Counter = () => {
 
             const currentVal = (
                 // <div>Current value: <span style={valueColor}><b>{value}</b></span></div>
                 <div>
                     Current value: <span style={{
-                        color: this.getValueColor(this.state.value)
-                    }}><b>{this.state.value}</b></span></div>
+                        color: this.getValueColor(delta)
+                    }}><b>{delta}</b></span></div>
             );
 
             const btnList = (
                 <div>
-                    <button type="button" onClick={() => this.handleChangeValue(this.state.add)}>Increase</button>
-                    <button type="button" onClick={() => this.handleChangeValue(!this.state.add)}>Decrease</button>
+                    {/* <button type="button" onClick={() => this.handleChangeValue(this.state.add)}>Increase</button> */}
+                    {/* <button type="button" onClick={() => this.handleChangeValue(!this.state.add)}>Decrease</button> */}
+                    <button type="button" onClick={() => this.handleDeltaChange(1)}>Increase</button>
+                    <button type="button" onClick={() => this.handleDeltaChange(-1)}>Decrease</button>
                     <button type="button" onClick={this.handleResetValue}>Reset</button>
                     <button type="button" onClick={this.handleToggleAutoIncrease}>{autoIncreaseOn ? 'Stop' : 'Start'} Auto increase</button>
                 </div>
